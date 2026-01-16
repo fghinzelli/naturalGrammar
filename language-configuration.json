@@ -1,0 +1,17 @@
+{
+    "comments": {
+        "lineComment": "/*",
+        "blockComment": [ "/*", "*/" ]
+    },
+    "brackets": [
+        ["IF", "END-IF"],
+        ["DECIDE", "END-DECIDE"],
+        ["FOR", "ENDFOR"],
+        ["FIND", "END-FIND"],
+        ["READ", "END-READ"]
+    ],
+    "autoClosingPairs": [
+        { "open": "'", "close": "'", "notIn": ["string", "comment"] },
+        { "open": "(", "close": ")" }
+    ]
+}

@@ -1,0 +1,38 @@
+{
+  "name": "natural-syntax-highlight",
+  "displayName": "Natural Adabas Syntax",
+  "description": "Syntax highlighting para linguagem Natural da Software AG",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.50.0"
+  },
+  "categories": [
+    "Programming Languages"
+  ],
+  "contributes": {
+    "languages": [
+      {
+        "id": "natural",
+        "aliases": ["Natural", "natural"],
+        "extensions": [
+          ".nsp",
+          ".nsn",
+          ".nsl",
+          ".nsa",
+          ".nss",
+          ".nsc",
+          ".nsg",
+          ".nsm"
+        ],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "natural",
+        "scopeName": "source.natural",
+        "path": "./sintaxes/natural.tmLanguage.json"
+      }
+    ]
+  }
+}
