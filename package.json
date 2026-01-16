@@ -15,14 +15,20 @@
         "id": "natural",
         "aliases": ["Natural", "natural"],
         "extensions": [
-          ".nsp",
-          ".nsn",
-          ".nsl",
-          ".nsa",
-          ".nss",
-          ".nsc",
-          ".nsg",
-          ".nsm"
+          ".NSA",
+          ".NSC",
+          ".NSD",
+          ".NSF",
+          ".NSG",
+          ".NSH",
+          ".NSL",
+          ".NSM",
+          ".NSN",
+          ".NSP",
+          ".NSS",
+          ".NST",
+          ".NSR",
+          ".NS7"
         ],
         "configuration": "./language-configuration.json"
       }
