@@ -5,21 +5,19 @@
   "patterns": [
     { "include": "#comments" },
     { "include": "#strings" },
-    { "include": "#keywords" },
-    { "include": "#database-access" },
+    { "include": "#storage-definitions" },
+    { "include": "#operators" },
+    { "include": "#control-statements" },
+    { "include": "#database-statements" },
+    { "include": "#system-variables" },
     { "include": "#constants" }
+    
   ],
   "repository": {
     "comments": {
       "patterns": [
-        {
-          "name": "comment.line.asterisk.natural",
-          "match": "^\\*.*$"
-        },
-        {
-          "name": "comment.line.slash.natural",
-          "match": "\\/\\*.*$"
-        }
+        { "name": "comment.line.asterisk.natural", "match": "^\\*.*$" },
+        { "name": "comment.line.slash.natural", "match": "\\/\\*.*$" }
       ]
     },
     "strings": {
@@ -28,35 +26,71 @@
       "end": "'",
       "patterns": [{ "match": "''" }]
     },
-    "keywords": {
+    "storage-definitions": {
       "patterns": [
         {
-          "name": "keyword.control.natural",
-          "match": "(?i)\\b(IF|THEN|ELSE|END-IF|DECIDE|VALUE|WHEN|END-DECIDE|FOR|FROM|TO|STEP|END-FOR|REPEAT|UNTIL|WHILE|END-REPEAT|ESCAPE|ROUTINE|RETURN|CALLNAT|PERFORM|STOP|TERMINATE)\\b"
-        },
-        {
-          "name": "keyword.other.natural",
-          "match": "(?i)\\b(DEFINE|DATA|LOCAL|GLOBAL|PARAMETER|END-DEFINE|WRITE|DISPLAY|INPUT|PRINT|MOVE|COMPUTE|ASSIGN|RESET|COMPRESS|EXAMINE|REPLACE|REDEFINE|VIEW|CONST|INIT|SEPARATE|DB|FILE)\\b"
+          "name": "keyword.control.storage.natural",
+          "match": "(?i)\\b(DEFINE\\s+DATA|LOCAL|GLOBAL|PARAMETER|INDEPENDENT|CONTEXT|OBJECT|END-DEFINE|USING|VIEW|OF)\\b"
         }
       ]
     },
-    "database-access": {
+    "operators": {
       "patterns": [
         {
-          "name": "keyword.database.natural",
-          "match": "(?i)\\b(FIND|READ|HISTOGRAM|GET|STORE|UPDATE|DELETE|END-FIND|END-READ|END-HISTOGRAM|WITH|WHERE|SORTED|BY)\\b"
+          "name": "keyword.operator.logical.natural",
+          "match": "(?i)\\b(AND|OR|XOR|NOT|EQ|NE|GT|LT|GE|LE|THRU|IS|MASK|SCAN|MOD)\\b"
+        },
+        {
+          "name": "keyword.operator.arithmetic.natural",
+          "match": "(\\+|\\-|\\*|\\/|\\*\\*|\\^|(?i)\\b(ADD|SUBTRACT|MULTIPLY|DIVIDE)\\b)"
+        },
+        {
+          "name": "keyword.operator.assignment.natural",
+          "match": "(:=|\\=)"
+        }
+      ]
+    },
+    "control-statements": {
+      "patterns": [
+        {
+          "name": "keyword.control.logical.natural",
+          "match": "(?i)\\b(IF|THEN|ELSE|END-IF|DECIDE|VALUE|WHEN|NONE|ANY|END-DECIDE|FOR|TO|STEP|ENDFOR|REPEAT|UNTIL|WHILE|END-REPEAT|ESCAPE|BOTTOM|TOP|STOP|TERMINATE)\\b"
+        },
+        {
+          "name": "entity.name.function.natural",
+          "match": "(?i)\\b(DEFINE\\s+SUBROUTINE|END-SUBROUTINE|DEFINE\\s+FUNCTION|END-FUNCTION|RETURNS|PERFORM|CALLNAT)\\b"
+        }
+      ]
+    },
+    "database-statements": {
+      "patterns": [
+        {
+          "name": "keyword.other.database.natural",
+          "match": "(?i)\\b(FIND|READ|HISTOGRAM|GET|STORE|UPDATE|DELETE|END-FIND|END-READ|END-HISTOGRAM|WITH|WHERE|SORTED|BY|REJECT|ACCEPT|END-NOREC|IF\\s+NO\\s+RECORDS\\s+FOUND|AT\\s+END\\s+OF\\s+DATA|END-ENDDATA)\\b"
+        }
+      ]
+    },
+    "system-variables": {
+      "patterns": [
+        {
+          "name": "variable.language.system.natural",
+          "match": "\\*[A-Z][A-Z0-9-]*"
         }
       ]
     },
     "constants": {
       "patterns": [
-        {
-          "name": "constant.numeric.natural",
-          "match": "\\b[0-9]+(\\.[0-9]+)?\\b"
+        { 
+          "name": "constant.numeric.natural", 
+          "match": "\\b[0-9]+(\\.[0-9]+)?\\b" 
+        },
+        { 
+          "name": "constant.language.boolean.natural", 
+          "match": "(?i)\\b(TRUE|FALSE)\\b" 
         },
         {
-          "name": "constant.language.system-var.natural",
-          "match": "(?i)\\*([A-Z][A-Z0-9-]*)?|\\b(TRUE|FALSE)\\b"
+          "name": "keyword.other.io.natural",
+          "match": "(?i)\\b(WRITE|DISPLAY|INPUT|PRINT|FORMAT|SET|MOVE|ASSIGN|COMPUTE|RESET|COMPRESS|EXAMINE|REPLACE|SKIP|STACK|FETCH|RUN|END)\\b"
         }
       ]
     }
