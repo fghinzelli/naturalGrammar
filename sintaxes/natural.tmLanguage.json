@@ -2,97 +2,160 @@
   "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
   "name": "Natural",
   "scopeName": "source.natural",
+  "uuid": "2d1c1e4a-c6cd-41c5-91b8-3e65e2ef5be9",
+  "fileTypes": ["nat", "nsp", "nsn", "nsl", "nsa", "nss", "nsc", "nsg", "nsm"],
   "patterns": [
     { "include": "#comments" },
-    { "include": "#strings" },
-    { "include": "#storage-definitions" },
+    { "include": "#data-definition" },
+    { "include": "#subroutine" },
     { "include": "#operators" },
-    { "include": "#control-statements" },
-    { "include": "#database-statements" },
-    { "include": "#system-variables" },
-    { "include": "#constants" }
-    
+    { "include": "#keywords" },
+    { "include": "#hash-vars" },
+    { "include": "#system-vars" },
+    { "include": "#date-and-time" },
+    { "include": "#numbers" },
+    { "include": "#strings" },
+    { "include": "#labels" },
+    { "include": "#keys" },
+    { "include": "#placeholder" },
+    { "include": "#wrong" },
+    { "include": "#trailing-space" }
   ],
   "repository": {
     "comments": {
+      "name": "comment.natural",
+      "match": "(^\\*.*$|\\/\\*.*$)"
+    },
+    "data-definition": {
+      "name": "data.definition.natural",
+      "begin": "(?i:define\\s+data)",
+      "beginCaptures": {
+        "0": { "name": "keyword.natural" }
+      },
+      "end": "(?i:end-define)",
+      "endCaptures": {
+        "0": { "name": "keyword.natural" }
+      },
       "patterns": [
-        { "name": "comment.line.asterisk.natural", "match": "^\\*.*$" },
-        { "name": "comment.line.slash.natural", "match": "\\/\\*.*$" }
+        { "include": "#comments" },
+        { "include": "#data-definition-keywords" },
+        { "include": "#external-storage-area" },
+        { "include": "#variable-level" },
+        { "include": "#variable-modifier" },
+        { "include": "#variable-type" },
+        { "include": "#view-definition" },
+        { "include": "#system-vars" },
+        { "include": "#hash-vars" },
+        { "include": "#placeholder" },
+        { "include": "#numbers" },
+        { "include": "#strings" }
+      ]
+    },
+    "data-definition-keywords": {
+      "name": "keyword.natural",
+      "match": "(?<![\\w-])(?i:with|view|value|result|redefine|parameter|optional|of|object|local|init|independent|global|dynamic|context|constant|const|by)(?![\\w-])"
+    },
+    "external-storage-area": {
+      "name": "storage.definition.using.natural",
+      "match": "(?i:(using)\\s+([a-z0-9]+))",
+      "captures": {
+        "1": { "name": "keyword.natural" },
+        "2": { "name": "string.object.natural" }
+      }
+    },
+    "variable-level": {
+      "name": "support.constant.level.natural",
+      "match": "^\\s*[0-9]+"
+    },
+    "variable-type": {
+      "name": "storage.type.natural",
+      "match": "(?<=\\()(?i:[abu][0-9]*|[np][0-9\\,\\.]+|i0*[148]|f0*[48]|[cdlt])"
+    },
+    "variable-modifier": {
+      "name": "variable.parameter.natural",
+      "match": "(?<=\\()(?i:ad|al|bx|cd|em|hd|pm)=[^\\)]+"
+    },
+    "view-definition": {
+      "name": "definition.view.natural",
+      "match": "([a-zA-Z0-9\\-]+)(?=\\s+view)"
+    },
+    "subroutine": {
+      "name": "definition.subroutine.natural",
+      "match": "(?i)(?<=subroutine)\\s+([a-z0-9\\-]+)",
+      "captures": {
+        "1": { "name": "entity.name.function.natural" }
+      }
+    },
+    "operators": {
+      "name": "keyword.operator.natural",
+      "match": "(?<![\\w-])(?i:thru|or|notequal|not|ne|lt|le|gt|ge|eq|equal\\s+to|equal|and|but|less\\s+than|greater\\s+than|mask|scan)(?![\\w-])"
+    },
+    "keywords": {
+      "name": "keyword.natural",
+      "match": "(?<![\\w-])(?i:add|assign|at|call|callnat|close|compute|compress|decide|define|delete|display|divide|do|else|end|end-decide|end-define|end-find|end-for|end-function|end-if|end-norec|end-read|end-repeat|end-subroutine|escape|examine|fetch|find|for|format|get|histogram|if|input|move|multiply|perform|print|read|repeat|reset|reinput|return|select|set|skip|stop|store|subtract|terminate|update|value|when|while|write)(?![\\w-])"
+    },
+    "hash-vars": {
+      "name": "variable.natural",
+      "match": "\\#[a-zA-Z0-9-]+"
+    },
+    "system-vars": {
+      "name": "constant.language.natural",
+      "match": "(?i:\\*(winmgrvers|username|user|tpvers|time|timn|program|pid|pf-key|pagesize|page-number|osvers|opsys|number|natvers|isn|init-user|hostname|error-nr|error-line|datx|datn|date|counter|applic-id))"
+    },
+    "date-and-time": {
+      "name": "support.constant.datetime.natural",
+      "match": "([tTdDeE]?)\\'[0-9:\\/\\.\\-]+\\'",
+      "captures": {
+        "1": { "name": "punctuation.definition.datetime.natural" }
+      }
+    },
+    "numbers": {
+      "patterns": [
+        {
+          "name": "constant.numeric.natural",
+          "match": "(?<![\\w-])[\\+\\-]?[0-9]+[,.]?[0-9]*(?![\\w-])"
+        }
       ]
     },
     "strings": {
-      "name": "string.quoted.single.natural",
-      "begin": "'",
-      "end": "'",
-      "patterns": [{ "match": "''" }]
-    },
-    "storage-definitions": {
       "patterns": [
         {
-          "name": "keyword.control.storage.natural",
-          "match": "(?i)\\b(DEFINE\\s+DATA|LOCAL|GLOBAL|PARAMETER|INDEPENDENT|CONTEXT|OBJECT|END-DEFINE|USING|VIEW|OF)\\b"
-        }
-      ]
-    },
-    "operators": {
-      "patterns": [
-        {
-          "name": "keyword.operator.logical.natural",
-          "match": "(?i)\\b(AND|OR|XOR|NOT|EQ|NE|GT|LT|GE|LE|THRU|IS|MASK|SCAN|MOD)\\b"
+          "name": "string.natural",
+          "begin": "([uU]?)\\'",
+          "end": "\\'",
+          "patterns": [{ "match": "\\'\\'", "name": "constant.character.escape.natural" }]
         },
         {
-          "name": "keyword.operator.arithmetic.natural",
-          "match": "(\\+|\\-|\\*|\\/|\\*\\*|\\^|(?i)\\b(ADD|SUBTRACT|MULTIPLY|DIVIDE)\\b)"
-        },
-        {
-          "name": "keyword.operator.assignment.natural",
-          "match": "(:=|\\=)"
+          "name": "string.natural",
+          "begin": "\"",
+          "end": "\"",
+          "patterns": [{ "match": "\"\"", "name": "constant.character.escape.natural" }]
         }
       ]
     },
-    "control-statements": {
+    "labels": {
       "patterns": [
         {
-          "name": "keyword.control.logical.natural",
-          "match": "(?i)\\b(IF|THEN|ELSE|END-IF|DECIDE|VALUE|WHEN|NONE|ANY|END-DECIDE|FOR|TO|STEP|ENDFOR|REPEAT|UNTIL|WHILE|END-REPEAT|ESCAPE|BOTTOM|TOP|STOP|TERMINATE)\\b"
-        },
-        {
-          "name": "entity.name.function.natural",
-          "match": "(?i)\\b(DEFINE\\s+SUBROUTINE|END-SUBROUTINE|DEFINE\\s+FUNCTION|END-FUNCTION|RETURNS|PERFORM|CALLNAT)\\b"
+          "name": "entity.name.tag.natural",
+          "match": "^\\s*(?i:[a-z0-9]+\\.)(?![\\w])"
         }
       ]
     },
-    "database-statements": {
-      "patterns": [
-        {
-          "name": "keyword.other.database.natural",
-          "match": "(?i)\\b(FIND|READ|HISTOGRAM|GET|STORE|UPDATE|DELETE|END-FIND|END-READ|END-HISTOGRAM|WITH|WHERE|SORTED|BY|REJECT|ACCEPT|END-NOREC|IF\\s+NO\\s+RECORDS\\s+FOUND|AT\\s+END\\s+OF\\s+DATA|END-ENDDATA)\\b"
-        }
-      ]
+    "keys": {
+      "name": "support.constant.key.natural",
+      "match": "(?<![\\w-])(?i:p[af][0-9]+|entr|clr)(?![\\w-])"
     },
-    "system-variables": {
-      "patterns": [
-        {
-          "name": "variable.language.system.natural",
-          "match": "\\*[A-Z][A-Z0-9-]*"
-        }
-      ]
+    "placeholder": {
+      "name": "support.constant.placeholder.natural",
+      "match": "(?<![\\w-])(?i:[0-9]+x)(?![\\w-])"
     },
-    "constants": {
-      "patterns": [
-        { 
-          "name": "constant.numeric.natural", 
-          "match": "\\b[0-9]+(\\.[0-9]+)?\\b" 
-        },
-        { 
-          "name": "constant.language.boolean.natural", 
-          "match": "(?i)\\b(TRUE|FALSE)\\b" 
-        },
-        {
-          "name": "keyword.other.io.natural",
-          "match": "(?i)\\b(WRITE|DISPLAY|INPUT|PRINT|FORMAT|SET|MOVE|ASSIGN|COMPUTE|RESET|COMPRESS|EXAMINE|REPLACE|SKIP|STACK|FETCH|RUN|END)\\b"
-        }
-      ]
+    "wrong": {
+      "name": "invalid",
+      "match": "\\t"
+    },
+    "trailing-space": {
+      "name": "invalid.deprecated.trailing-whitespace",
+      "match": "[ \t]+$"
     }
   }
 }
